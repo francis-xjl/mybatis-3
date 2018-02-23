@@ -286,7 +286,7 @@ public class MapperAnnotationBuilder {
   void parseStatement(Method method) { //解析方法与参数对应的Mapper信息
     Class<?> parameterTypeClass = getParameterType(method);
     LanguageDriver languageDriver = getLanguageDriver(method);
-    SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver); //得到动态生成的SQLSource处理类 123
+    SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver); //得到动态生成的SQLSource处理类 1234
     if (sqlSource != null) {
       Options options = method.getAnnotation(Options.class);
       final String mappedStatementId = type.getName() + "." + method.getName();
