@@ -130,7 +130,7 @@ public class MapperAnnotationBuilder {
       for (Method method : methods) {
         try {
           // issue #237
-          if (!method.isBridge()) {
+          if (!method.isBridge()) { // 桥接方法，由编译时生成，JVM用于向下兼容，具体：http://blog.csdn.net/mhmyqn/article/details/47342577
             parseStatement(method);
           }
         } catch (IncompleteElementException e) {
@@ -283,10 +283,10 @@ public class MapperAnnotationBuilder {
     return null;
   }
 
-  void parseStatement(Method method) {
+  void parseStatement(Method method) { //解析方法与参数对应的Mapper信息
     Class<?> parameterTypeClass = getParameterType(method);
     LanguageDriver languageDriver = getLanguageDriver(method);
-    SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
+    SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver); //得到动态生成的SQLSource处理类
     if (sqlSource != null) {
       Options options = method.getAnnotation(Options.class);
       final String mappedStatementId = type.getName() + "." + method.getName();
@@ -389,7 +389,7 @@ public class MapperAnnotationBuilder {
     Class<?> parameterType = null;
     Class<?>[] parameterTypes = method.getParameterTypes();
     for (Class<?> currentParameterType : parameterTypes) {
-      if (!RowBounds.class.isAssignableFrom(currentParameterType) && !ResultHandler.class.isAssignableFrom(currentParameterType)) {
+      if (!RowBounds.class.isAssignableFrom(currentParameterType) && !ResultHandler.class.isAssignableFrom(currentParameterType)) { //处理方法参数时，去掉RowBounds与ResultHandler类型的参数
         if (parameterType == null) {
           parameterType = currentParameterType;
         } else {
